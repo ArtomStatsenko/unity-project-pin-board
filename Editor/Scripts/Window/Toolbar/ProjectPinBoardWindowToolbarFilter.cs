@@ -7,29 +7,14 @@ using UnityEngine.UIElements;
 
 namespace ChenPipi.ProjectPinBoard.Editor
 {
-
-    /// <summary>
-    /// 窗口
-    /// </summary>
     public partial class ProjectPinBoardWindow
     {
-
-        /// <summary>
-        /// 类型过滤按钮
-        /// </summary>
         private ToolbarButton m_ToolbarTypeFilterButton = null;
 
-        /// <summary>
-        /// 标签过滤按钮
-        /// </summary>
         private ToolbarButton m_ToolbarTagFilterButton = null;
 
-        /// <summary>
-        /// 初始化
-        /// </summary>
         private void InitToolbarFilterButton()
         {
-            // 类型过滤
             m_ToolbarTypeFilterButton = new ToolbarButton()
             {
                 name = "TypeFilterButton",
@@ -51,20 +36,16 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 }
             };
             m_Toolbar.Add(m_ToolbarTypeFilterButton);
-            // 图标
-            m_ToolbarTypeFilterButton.Add(new Image()
-            {
-                image = PipiUtility.GetIcon("FilterByType"),
-                scaleMode = ScaleMode.ScaleToFit,
-                style =
+            m_ToolbarTypeFilterButton.Add(
+                new Image()
                 {
-                    width = 16,
+                    image = PipiUtility.GetIcon("FilterByType"),
+                    scaleMode = ScaleMode.ScaleToFit,
+                    style = { width = 16, }
                 }
-            });
-            // 回调
+            );
             m_ToolbarTypeFilterButton.clicked += OnTypeFilterButtonClicked;
 
-            // 标签过滤
             m_ToolbarTagFilterButton = new ToolbarButton()
             {
                 name = "TagFilterButton",
@@ -86,61 +67,73 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 }
             };
             m_Toolbar.Add(m_ToolbarTagFilterButton);
-            // 图标
-            m_ToolbarTagFilterButton.Add(new Image()
-            {
-                image = PipiUtility.GetIcon("FilterByLabel"),
-                scaleMode = ScaleMode.ScaleToFit,
-                style =
+            m_ToolbarTagFilterButton.Add(
+                new Image()
                 {
-                    width = 16,
+                    image = PipiUtility.GetIcon("FilterByLabel"),
+                    scaleMode = ScaleMode.ScaleToFit,
+                    style = { width = 16, }
                 }
-            });
-            // 回调
+            );
             m_ToolbarTagFilterButton.clicked += OnTagFilterButtonClicked;
         }
 
         private void OnTypeFilterButtonClicked()
         {
             const string popupTitle = "Filter by Type";
-            Vector2 popupPos = new Vector2(m_ToolbarTypeFilterButton.worldBound.x, m_ToolbarTypeFilterButton.worldBound.y + 4);
-            ShowTogglePopup(popupTitle, popupPos, m_ItemTypeList, m_FilteringType, (v) => { SetTypeFilter(m_FilteringType.Equals(v, StringComparison.OrdinalIgnoreCase) ? string.Empty : v); });
+            Vector2 popupPos = new Vector2(
+                m_ToolbarTypeFilterButton.worldBound.x,
+                m_ToolbarTypeFilterButton.worldBound.y + 4
+            );
+            ShowTogglePopup(
+                popupTitle,
+                popupPos,
+                m_ItemTypeList,
+                m_FilteringType,
+                (v) =>
+                {
+                    SetTypeFilter(
+                        m_FilteringType.Equals(v, StringComparison.OrdinalIgnoreCase)
+                            ? string.Empty
+                            : v
+                    );
+                }
+            );
         }
 
         private void OnTagFilterButtonClicked()
         {
             const string popupTitle = "Filter by Tag";
-            Vector2 popupPos = new Vector2(m_ToolbarTagFilterButton.worldBound.x, m_ToolbarTagFilterButton.worldBound.y + 4);
-            ShowTogglePopup(popupTitle, popupPos, m_ItemTagList, m_FilteringTag, (v) => { SetTagFilter(m_FilteringTag.Equals(v, StringComparison.OrdinalIgnoreCase) ? string.Empty : v); });
+            Vector2 popupPos = new Vector2(
+                m_ToolbarTagFilterButton.worldBound.x,
+                m_ToolbarTagFilterButton.worldBound.y + 4
+            );
+            ShowTogglePopup(
+                popupTitle,
+                popupPos,
+                m_ItemTagList,
+                m_FilteringTag,
+                (v) =>
+                {
+                    SetTagFilter(
+                        m_FilteringTag.Equals(v, StringComparison.OrdinalIgnoreCase)
+                            ? string.Empty
+                            : v
+                    );
+                }
+            );
         }
 
         #region Filtering
 
-        /// <summary>
-        /// 类型过滤正则表达式
-        /// </summary>
         private const string k_TypeFilterPattern = @"(.*)\s*type:(\S+)?\s*(.*)";
 
-        /// <summary>
-        /// 标签过滤正则表达式
-        /// </summary>
         private const string k_TagFilterPattern = @"(.*)\s*tag:(\S+)?\s*(.*)";
 
-        /// <summary>
-        /// 过滤类型
-        /// </summary>
         private string m_FilteringType = string.Empty;
 
-        /// <summary>
-        /// 过滤标签
-        /// </summary>
         private string m_FilteringTag = string.Empty;
 
-        /// <summary>
-        /// 设置搜索栏标签过滤
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="updateSearch"></param>
         private void SetTypeFilter(string type, bool updateSearch = true)
         {
             m_FilteringType = type;
@@ -151,11 +144,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
             }
         }
 
-        /// <summary>
-        /// 设置搜索栏标签过滤
-        /// </summary>
-        /// <param name="tag"></param>
-        /// <param name="updateSearch"></param>
         private void SetTagFilter(string tag, bool updateSearch = true)
         {
             m_FilteringTag = tag;
@@ -166,17 +154,10 @@ namespace ChenPipi.ProjectPinBoard.Editor
             }
         }
 
-        /// <summary>
-        /// 过滤
-        /// </summary>
-        /// <param name="list"></param>
-        /// <returns></returns>
         private void Filter(ref List<ItemInfo> list)
         {
-            // 移除空格
             string text = m_SearchText.Trim();
 
-            // 匹配类型
             SetTypeFilter(string.Empty, false);
             if (text.Contains("type:"))
             {
@@ -192,7 +173,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 }
             }
 
-            // 匹配标签
             SetTagFilter(string.Empty, false);
             if (text.Contains("tag:"))
             {
@@ -208,17 +188,16 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 }
             }
 
-            // 匹配名称
             if (!string.IsNullOrWhiteSpace(text))
             {
                 string pattern = text.Trim().ToCharArray().Join(".*");
                 Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                list = list.FindAll(v => regex.Match(v.AssetName).Success || regex.Match(v.displayName).Success);
+                list = list.FindAll(
+                    v => regex.Match(v.AssetName).Success || regex.Match(v.displayName).Success
+                );
             }
         }
 
         #endregion
-
     }
-
 }

@@ -111,7 +111,7 @@ One more thing:
 
 This project is compatible with the following versions of the Unity Editor:
 
-- 2020.2 and later
+- 2020.2 and later (including Unity 6+)
 
 ### Testing details
 
@@ -124,6 +124,7 @@ This project is compatible with the following versions of the Unity Editor:
 | Unity 2021.3.22f1 | ✔️     |      |
 | Unity 2021.3.27f1 | ✔️     |      |
 | Unity 2021.3.29f1 | ✔️     |      |
+| Unity 6 (6000.x)  | ✔️     |      |
 
 ## Dependencies
 

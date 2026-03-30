@@ -2,13 +2,8 @@ using UnityEditor;
 
 namespace ChenPipi.ProjectPinBoard.Editor
 {
-
-    /// <summary>
-    /// 菜单
-    /// </summary>
     public static class ProjectPinBoardMenu
     {
-
         private const string k_MenuName = "Project Pin Board 📌";
 
         #region Window Menu
@@ -50,7 +45,5 @@ namespace ChenPipi.ProjectPinBoard.Editor
         }
 
         #endregion
-
     }
-
 }

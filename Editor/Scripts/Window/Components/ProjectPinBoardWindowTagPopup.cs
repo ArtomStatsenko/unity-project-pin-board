@@ -9,26 +9,12 @@ using PopupWindow = UnityEngine.UIElements.PopupWindow;
 
 namespace ChenPipi.ProjectPinBoard.Editor
 {
-
-    /// <summary>
-    /// 窗口：标签弹窗
-    /// </summary>
     public partial class ProjectPinBoardWindow
     {
-
-        /// <summary>
-        /// 标签窗口背景遮罩
-        /// </summary>
         private VisualElement m_TagPopupMask = null;
 
-        /// <summary>
-        /// 标签窗口
-        /// </summary>
         private PopupWindow m_TagPopupWindow = null;
 
-        /// <summary>
-        /// 关闭标签窗口
-        /// </summary>
         private void CloseTagPopup()
         {
             m_TagPopupWindow.userData = null;
@@ -36,13 +22,15 @@ namespace ChenPipi.ProjectPinBoard.Editor
             Box allTagsContainer = m_TagPopupWindow.Q<Box>("AllTags");
             foreach (VisualElement element in allTagsContainer.Children().ToArray())
             {
-                if (element is Label) element.RemoveFromHierarchy();
+                if (element is Label)
+                    element.RemoveFromHierarchy();
             }
 
             Box itemTagsContainer = m_TagPopupWindow.Q<Box>("ItemTags");
             foreach (VisualElement element in itemTagsContainer.Children().ToArray())
             {
-                if (element is Label) element.RemoveFromHierarchy();
+                if (element is Label)
+                    element.RemoveFromHierarchy();
             }
             ((List<string>)itemTagsContainer.userData)?.Clear();
 
@@ -50,13 +38,8 @@ namespace ChenPipi.ProjectPinBoard.Editor
             m_TagPopupMask.style.display = DisplayStyle.None;
         }
 
-        /// <summary>
-        /// 展示标签窗口
-        /// </summary>
-        /// <param name="itemInfos"></param>
         private void ShowTagPopup(ItemInfo[] itemInfos)
         {
-            // 创建底部遮罩
             if (m_TagPopupMask == null)
             {
                 m_TagPopupMask = new VisualElement()
@@ -73,7 +56,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
                     }
                 };
                 rootVisualElement.Add(m_TagPopupMask);
-                // 点击遮罩关闭弹窗
                 m_TagPopupMask.RegisterCallback<ClickEvent>((evt) => CloseTagPopup());
             }
             else
@@ -82,12 +64,8 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 m_TagPopupMask.BringToFront();
             }
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // 创建窗口
             if (m_TagPopupWindow == null)
             {
-                // 生成标题文本
                 Label GenSubTitleLabel(string text)
                 {
                     return new Label()
@@ -107,14 +85,10 @@ namespace ChenPipi.ProjectPinBoard.Editor
                     };
                 }
 
-                // 标签容器边框颜色
                 Color tagContainerBorderColor = new Color(88 / 255f, 88 / 255f, 88 / 255f, 0.5f);
-                // 标签容器边框宽度
                 const int tagContainerBorderWidth = 1;
-                // 标签容器边框圆角
                 const int tagContainerBorderRadius = 5;
 
-                // 生成标签容器
                 Box GenTagContainer(string name)
                 {
                     return new Box()
@@ -150,9 +124,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
                     };
                 }
 
-                // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-                // 创建窗口元素
                 m_TagPopupWindow = new PopupWindow()
                 {
                     name = "TagPopup",
@@ -176,25 +147,20 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 };
                 rootVisualElement.Add(m_TagPopupWindow);
 
-                // 内部容器样式
                 m_TagPopupWindow.contentContainer.style.paddingTop = 4;
 
-                // 监听按键事件
                 m_TagPopupWindow.RegisterCallback<KeyDownEvent>(evt =>
                 {
-                    // Enter
                     if (evt.keyCode == KeyCode.Return || evt.keyCode == KeyCode.KeypadEnter)
                     {
                         OnConfirmButtonClick();
                     }
-                    // Esc
                     else if (evt.keyCode == KeyCode.Escape)
                     {
                         OnCancelButtonClick();
                     }
                 });
 
-                // 更新窗口位置尺寸
                 void UpdateTransform()
                 {
                     Rect rootBound = rootVisualElement.worldBound;
@@ -209,66 +175,50 @@ namespace ChenPipi.ProjectPinBoard.Editor
                     m_TagPopupWindow.style.left = left;
                 }
 
-                // 跟随主面板尺寸变化
-                rootVisualElement.RegisterCallback<GeometryChangedEvent>((evt) => UpdateTransform());
+                rootVisualElement.RegisterCallback<GeometryChangedEvent>(
+                    (evt) => UpdateTransform()
+                );
 
-                // 更新窗口位置尺寸
                 UpdateTransform();
 
-                // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-                // 大标题
-                m_TagPopupWindow.Add(new Label()
-                {
-                    name = "Title",
-                    style =
+                m_TagPopupWindow.Add(
+                    new Label()
                     {
-                        marginBottom = 10,
-                        unityTextAlign = TextAnchor.MiddleCenter,
-                        unityFontStyleAndWeight = FontStyle.Bold,
-                        whiteSpace = WhiteSpace.Normal,
+                        name = "Title",
+                        style =
+                        {
+                            marginBottom = 10,
+                            unityTextAlign = TextAnchor.MiddleCenter,
+                            unityFontStyleAndWeight = FontStyle.Bold,
+                            whiteSpace = WhiteSpace.Normal,
+                        }
                     }
-                });
+                );
 
                 ScrollView scrollView = new ScrollView();
                 m_TagPopupWindow.Add(scrollView);
 
-                // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-                // 已有标签
                 {
-                    // 标题
                     scrollView.Add(GenSubTitleLabel("Select Existing Tags (Click to add)"));
-                    // 容器
                     Box allTagsContainer = GenTagContainer("AllTags");
                     scrollView.Add(allTagsContainer);
-                    // 添加一个空的占位元素（在Unity2020中出现的Bug：没有子元素时容器元素的布局会出现异常，发生坍缩）
                     allTagsContainer.Add(new VisualElement() { name = "Placeholder" });
                 }
 
-                // 分隔线
                 scrollView.Add(GenHorizontalSeparator(8));
 
-                // 当前标签
                 {
-                    // 标题
                     scrollView.Add(GenSubTitleLabel("Current Tags (Click to remove)"));
-                    // 容器
                     Box itemTagsContainer = GenTagContainer("ItemTags");
                     itemTagsContainer.userData = new List<string>();
                     scrollView.Add(itemTagsContainer);
-                    // 添加一个空的占位元素（在Unity2020中出现的Bug：没有子元素时容器元素的布局会出现异常，发生坍缩）
                     itemTagsContainer.Add(new VisualElement() { name = "Placeholder" });
                 }
 
-                // 分割线
                 scrollView.Add(GenHorizontalSeparator(8));
 
-                // 添加标签
                 {
-                    // 标题
                     scrollView.Add(GenSubTitleLabel("Add New Tag (Use ',' to separate)"));
-                    // 容器
                     VisualElement container = new VisualElement()
                     {
                         style =
@@ -280,7 +230,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
                         }
                     };
                     scrollView.Add(container);
-                    // 标签输入框
                     TextField tagTextField = new TextField()
                     {
                         name = "TagTextField",
@@ -300,10 +249,8 @@ namespace ChenPipi.ProjectPinBoard.Editor
                         textInput.style.unityTextAlign = TextAnchor.UpperLeft;
                     }
                     container.Add(tagTextField);
-                    // 监听按键事件
                     tagTextField.RegisterCallback<KeyDownEvent>(evt =>
                     {
-                        // Enter
                         if (evt.keyCode == KeyCode.Return || evt.keyCode == KeyCode.KeypadEnter)
                         {
                             if (string.IsNullOrEmpty(tagTextField.value))
@@ -317,7 +264,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
                             evt.StopPropagation();
                         }
                     });
-                    // 添加按钮
                     Button addTagButton = new Button()
                     {
                         name = "AddTagButton",
@@ -334,12 +280,9 @@ namespace ChenPipi.ProjectPinBoard.Editor
                     addTagButton.clicked += OnAddTagButtonClick;
                 }
 
-                // 分割线
                 scrollView.Add(GenHorizontalSeparator(8));
 
-                // 底部按钮
                 {
-                    // 容器
                     VisualElement mainButtons = new VisualElement()
                     {
                         name = "MainButtons",
@@ -351,7 +294,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
                         }
                     };
                     scrollView.Add(mainButtons);
-                    // 取消按钮
                     Button cancelButton = new Button()
                     {
                         name = "CancelButton",
@@ -365,7 +307,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
                     };
                     mainButtons.Add(cancelButton);
                     cancelButton.clicked += OnCancelButtonClick;
-                    // 确认按钮
                     Button confirmButton = new Button()
                     {
                         name = "ConfirmButton",
@@ -387,21 +328,16 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 m_TagPopupWindow.BringToFront();
             }
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // 获取当前编辑的条目信息
             ItemInfo[] GetEditingItemInfos()
             {
                 return (ItemInfo[])m_TagPopupWindow.userData;
             }
 
-            // 获取当前选择的条目标签
             List<string> GetSelectedItemTags()
             {
                 return (List<string>)m_TagPopupWindow.Q<Box>("ItemTags").userData;
             }
 
-            // 设置标题
             void SetTitle(string text, string tooltip = "")
             {
                 Label titleLabel = m_TagPopupWindow.Q<Label>("Title");
@@ -409,29 +345,31 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 titleLabel.tooltip = tooltip;
             }
 
-            // 刷新所有标签元素
             void RefreshAllTagsContainer(List<string> tags)
             {
                 Box allTagsContainer = m_TagPopupWindow.Q<Box>("AllTags");
 
                 foreach (VisualElement element in allTagsContainer.Children().ToArray())
                 {
-                    if (element is Label) element.RemoveFromHierarchy();
+                    if (element is Label)
+                        element.RemoveFromHierarchy();
                 }
 
                 foreach (string tag in tags)
                 {
-                    Label label = GenTagLabel(tag, () =>
-                    {
-                        AddTag(tag);
-                        FocusToTagTextField();
-                    });
+                    Label label = GenTagLabel(
+                        tag,
+                        () =>
+                        {
+                            AddTag(tag);
+                            FocusToTagTextField();
+                        }
+                    );
                     label.AddToClassList("Addable");
                     allTagsContainer.Add(label);
                 }
             }
 
-            // 刷新当前条目标签元素
             void RefreshItemTagsContainer(List<string> tags)
             {
                 Box itemTagsContainer = m_TagPopupWindow.Q<Box>("ItemTags");
@@ -442,7 +380,8 @@ namespace ChenPipi.ProjectPinBoard.Editor
 
                 foreach (VisualElement element in itemTagsContainer.Children().ToArray())
                 {
-                    if (element is Label) element.RemoveFromHierarchy();
+                    if (element is Label)
+                        element.RemoveFromHierarchy();
                 }
 
                 foreach (string tag in itemTags)
@@ -453,14 +392,12 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 }
             }
 
-            // 设置输入框内容
             void SetTagTextFieldValue(string text)
             {
                 TextField tagTextField = m_TagPopupWindow.Q<TextField>("TagTextField");
                 tagTextField.value = text;
             }
 
-            // 聚焦到标签输入框
             void FocusToTagTextField()
             {
                 TextField tagTextField = m_TagPopupWindow.Q<TextField>("TagTextField");
@@ -480,22 +417,22 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 }
             }
 
-            // 添加标签按钮回调
             void OnAddTagButtonClick()
             {
                 TextField tagTextField = m_TagPopupWindow.Q<TextField>("TagTextField");
-                string[] texts = tagTextField.value.Split(new[] { ",", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                string[] texts = tagTextField
+                    .value
+                    .Split(new[] { ",", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                 List<string> fails = new List<string>();
                 foreach (string text in texts)
                 {
-                    if (!AddTag(text)) fails.Add(text);
+                    if (!AddTag(text))
+                        fails.Add(text);
                 }
                 tagTextField.value = fails.Join(", ");
-                // 聚焦到标签输入框
                 FocusToTagTextField();
             }
 
-            // 确认按钮回调
             void OnConfirmButtonClick()
             {
                 List<string> itemTags = GetSelectedItemTags();
@@ -506,26 +443,20 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 CloseTagPopup();
             }
 
-            // 取消按钮回调
             void OnCancelButtonClick()
             {
                 CloseTagPopup();
             }
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // 添加标签
             bool AddTag(string tag)
             {
-                // 移除空格
                 tag = Regex.Replace(tag, @"\s", "");
 
-                // 是否空白
-                if (string.IsNullOrWhiteSpace(tag)) return false;
-                // 是否合法
-                if (!ProjectPinBoardManager.IsValidTag(tag)) return false;
+                if (string.IsNullOrWhiteSpace(tag))
+                    return false;
+                if (!ProjectPinBoardManager.IsValidTag(tag))
+                    return false;
 
-                // 是否已存在
                 Box itemTagsContainer = m_TagPopupWindow.Q<Box>("ItemTags");
                 List<string> itemTags = (List<string>)itemTagsContainer.userData;
                 if (itemTags.Contains(tag, StringComparer.OrdinalIgnoreCase))
@@ -534,33 +465,32 @@ namespace ChenPipi.ProjectPinBoard.Editor
                     return false;
                 }
 
-                // 添加数据
                 itemTags.Add(tag);
-                // 添加元素
-                Label label = GenTagLabel(tag, () =>
-                {
-                    RemoveTag(tag);
-                    FocusToTagTextField();
-                });
+                Label label = GenTagLabel(
+                    tag,
+                    () =>
+                    {
+                        RemoveTag(tag);
+                        FocusToTagTextField();
+                    }
+                );
                 label.AddToClassList("Removable");
                 itemTagsContainer.Add(label);
 
                 return true;
             }
 
-            // 移除标签
             void RemoveTag(string tag)
             {
                 Box itemTagsContainer = m_TagPopupWindow.Q<Box>("ItemTags");
 
-                // 更新数据
                 List<string> itemTags = (List<string>)itemTagsContainer.userData;
                 itemTags.Remove(tag);
 
-                // 移除元素
                 foreach (VisualElement element in itemTagsContainer.Children())
                 {
-                    if (!(element is Label label)) continue;
+                    if (!(element is Label label))
+                        continue;
                     if (label.text == tag)
                     {
                         label.RemoveFromHierarchy();
@@ -569,12 +499,8 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 }
             }
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // 保存条目信息引用
             m_TagPopupWindow.userData = itemInfos;
 
-            // 更新标题
             if (itemInfos.Length == 1)
             {
                 SetTitle($"Set tag(s) of \"{itemInfos[0].AssetName}\"", itemInfos[0].AssetName);
@@ -585,19 +511,15 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 SetTitle($"Set tag(s) of items...", tooltip);
             }
 
-            // 刷新所有标签
             RefreshAllTagsContainer(m_ItemTagList);
 
-            // 刷新当前条目标签
-            RefreshItemTagsContainer(itemInfos.Length == 1 ? itemInfos[0].tags : new List<string>());
+            RefreshItemTagsContainer(
+                itemInfos.Length == 1 ? itemInfos[0].tags : new List<string>()
+            );
 
-            // 清空标签输入
             SetTagTextFieldValue(string.Empty);
 
-            // 聚焦到标签输入框
             FocusToTagTextField();
         }
-
     }
-
 }

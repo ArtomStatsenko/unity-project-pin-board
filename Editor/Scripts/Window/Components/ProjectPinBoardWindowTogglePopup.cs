@@ -5,25 +5,16 @@ using UnityEngine.UIElements;
 
 namespace ChenPipi.ProjectPinBoard.Editor
 {
-
-    /// <summary>
-    /// 窗口：开关弹窗
-    /// </summary>
     public partial class ProjectPinBoardWindow
     {
-
-        /// <summary>
-        /// 展示开关列表弹窗
-        /// </summary>
-        /// <param name="headline"></param>
-        /// <param name="pos"></param>
-        /// <param name="labels"></param>
-        /// <param name="curLabel"></param>
-        /// <param name="toggleCallback"></param>
-        private void ShowTogglePopup(string headline, Vector2 pos, List<string> labels, string curLabel, Action<string> toggleCallback)
+        private void ShowTogglePopup(
+            string headline,
+            Vector2 pos,
+            List<string> labels,
+            string curLabel,
+            Action<string> toggleCallback
+        )
         {
-
-            // 创建底部遮罩
             VisualElement popupMask = new VisualElement()
             {
                 name = "TogglePopupMask",
@@ -38,9 +29,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
             };
             rootVisualElement.Add(popupMask);
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // 创建弹窗
             const int borderRadius = 8;
             PopupWindow popupWindow = new PopupWindow()
             {
@@ -57,9 +45,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
             };
             rootVisualElement.Add(popupWindow);
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // 更新窗口位置尺寸
             void UpdateTransform()
             {
                 Rect rootBound = rootVisualElement.worldBound;
@@ -82,32 +67,21 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 popupWindow.style.left = left;
             }
 
-            // 监听主面板尺寸变化
             rootVisualElement.RegisterCallback<GeometryChangedEvent>((evt) => UpdateTransform());
-            // 监听自身元素变化
             popupWindow.RegisterCallback<GeometryChangedEvent>((evt) => UpdateTransform());
 
-            // 更新窗口位置尺寸
             UpdateTransform();
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // 关闭弹窗函数
             void CloseTogglePopup()
             {
                 popupWindow.RemoveFromHierarchy();
                 popupMask.RemoveFromHierarchy();
             }
 
-            // 点击遮罩关闭弹窗
             popupMask.RegisterCallback<ClickEvent>((evt) => CloseTogglePopup());
 
-            // 弹窗就绪后聚焦
             popupWindow.RegisterCallback<GeometryChangedEvent>((evt) => popupWindow.BringToFront());
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // 开关变化回调
             void OnToggleValueChanged(ChangeEvent<bool> evt)
             {
                 Toggle toggle = (Toggle)evt.target;
@@ -116,7 +90,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 CloseTogglePopup();
             }
 
-            // 生成开关
             Toggle GenToggle(string label, bool isOn)
             {
                 Toggle toggle = new Toggle()
@@ -135,7 +108,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
                     }
                 };
                 toggle.AddToClassList("Toggle");
-                // 调整文本样式
                 {
                     Label labelElement = toggle.labelElement;
                     labelElement.style.flexGrow = 1;
@@ -143,26 +115,21 @@ namespace ChenPipi.ProjectPinBoard.Editor
                     labelElement.style.minWidth = StyleKeyword.Auto;
                     labelElement.style.whiteSpace = WhiteSpace.Normal;
                 }
-                // 调整开关样式
                 {
-                    VisualElement checkmarkElement = toggle.Q<VisualElement>("unity-checkmark").parent;
+                    VisualElement checkmarkElement = toggle
+                        .Q<VisualElement>("unity-checkmark")
+                        .parent;
                     checkmarkElement.style.flexGrow = 0;
                     checkmarkElement.style.marginLeft = 5;
                 }
-                // 注册开关变化回调
                 toggle.RegisterValueChangedCallback(OnToggleValueChanged);
                 return toggle;
             }
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // 内容
             if (labels.Count > 0)
             {
-                // 创建滚动视图
                 ScrollView scrollView = new ScrollView();
                 popupWindow.Add(scrollView);
-                // 添加开关
                 foreach (string label in labels)
                 {
                     bool isOn = label.Equals(curLabel, StringComparison.OrdinalIgnoreCase);
@@ -172,20 +139,19 @@ namespace ChenPipi.ProjectPinBoard.Editor
             }
             else
             {
-                // 添加占位符
-                popupWindow.Add(new Label()
-                {
-                    name = "Placeholder",
-                    text = "Empty...",
-                    style =
+                popupWindow.Add(
+                    new Label()
                     {
-                        color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 1f),
-                        unityTextAlign = TextAnchor.MiddleCenter,
+                        name = "Placeholder",
+                        text = "Empty...",
+                        style =
+                        {
+                            color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 1f),
+                            unityTextAlign = TextAnchor.MiddleCenter,
+                        }
                     }
-                });
+                );
             }
         }
-
     }
-
 }

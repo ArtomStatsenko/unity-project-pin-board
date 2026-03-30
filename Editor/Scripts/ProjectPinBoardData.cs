@@ -6,13 +6,8 @@ using Object = UnityEngine.Object;
 
 namespace ChenPipi.ProjectPinBoard.Editor
 {
-
-    /// <summary>
-    /// 数据
-    /// </summary>
     public static class ProjectPinBoardData
     {
-
         [Serializable]
         private class UserData
         {
@@ -39,7 +34,8 @@ namespace ChenPipi.ProjectPinBoard.Editor
 
         public static List<ItemInfo> items => userData.items;
 
-        private static readonly Dictionary<string, ItemInfo> s_Guid2Item = new Dictionary<string, ItemInfo>();
+        private static readonly Dictionary<string, ItemInfo> s_Guid2Item =
+            new Dictionary<string, ItemInfo>();
 
         private static void GenerateMapping()
         {
@@ -75,11 +71,7 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 return;
             }
 
-            item = new ItemInfo()
-            {
-                guid = guid,
-                time = PipiUtility.GetTimestamp(),
-            };
+            item = new ItemInfo() { guid = guid, time = PipiUtility.GetTimestamp(), };
             items.Add(item);
             s_Guid2Item.Add(guid, item);
         }
@@ -110,26 +102,17 @@ namespace ChenPipi.ProjectPinBoard.Editor
 
         #region Basic Interface
 
-        /// <summary>
-        /// 保存到本地
-        /// </summary>
         public static void Save()
         {
             SetLocal(userData);
         }
 
-        /// <summary>
-        /// 重新加载
-        /// </summary>
         public static void Reload()
         {
             s_UserData = GetLocal();
             GenerateMapping();
         }
 
-        /// <summary>
-        /// 重置
-        /// </summary>
         public static void Reset()
         {
             s_Guid2Item.Clear();
@@ -140,182 +123,106 @@ namespace ChenPipi.ProjectPinBoard.Editor
 
         #region Serialization & Deserialization
 
-        /// <summary>
-        /// 本地序列化文件路径
-        /// </summary>
-        internal static readonly string SerializedFilePath = string.Format(ProjectPinBoardManager.LocalFilePathTemplate, "data");
+        internal static readonly string SerializedFilePath = string.Format(
+            ProjectPinBoardManager.LocalFilePathTemplate,
+            "data"
+        );
 
-        /// <summary>
-        /// 获取本地序列化的数据
-        /// </summary>
-        /// <returns></returns>
         private static UserData GetLocal()
         {
             return PipiUtility.GetLocal<UserData>(SerializedFilePath);
         }
 
-        /// <summary>
-        /// 将数据序列化到本地
-        /// </summary>
-        /// <param name="value"></param>
         private static void SetLocal(UserData value)
         {
             PipiUtility.SetLocal(SerializedFilePath, value);
         }
 
         #endregion
-
     }
 
     #region ItemInfo
 
-    /// <summary>
-    /// PinBoard 条目信息
-    /// </summary>
     [Serializable]
     public class ItemInfo
     {
-
-        /// <summary>
-        /// 资源 GUID
-        /// </summary>
         public string guid = string.Empty;
 
-        /// <summary>
-        /// 标签
-        /// </summary>
         public List<string> tags = new List<string>();
 
-        /// <summary>
-        /// Pin 时间
-        /// </summary>
         public long time = 0;
 
-        /// <summary>
-        /// 显示名称
-        /// </summary>
         public string displayName = string.Empty;
 
-        /// <summary>
-        /// 置顶
-        /// </summary>
         public bool top = false;
 
-        /// <summary>
-        /// 资源
-        /// </summary>
         public Object Asset => AssetDatabase.LoadAssetAtPath<Object>(Path);
 
-        /// <summary>
-        /// 资源名称
-        /// </summary>
         public string AssetName => PipiUtility.GetAssetName(guid);
 
-        /// <summary>
-        /// 名称
-        /// </summary>
         public string Name => (string.IsNullOrWhiteSpace(displayName) ? AssetName : displayName);
 
-        /// <summary>
-        /// 名称
-        /// </summary>
         public string Type => (AssetDatabase.GetMainAssetTypeAtPath(Path)?.Name ?? string.Empty);
 
-        /// <summary>
-        /// 资源 AssetBundle
-        /// </summary>
-        public string AssetBundle => (IsValid() ? AssetDatabase.GetImplicitAssetBundleName(Path) : string.Empty);
+        public string AssetBundle =>
+            (IsValid() ? AssetDatabase.GetImplicitAssetBundleName(Path) : string.Empty);
 
-        /// <summary>
-        /// 资源路径
-        /// </summary>
         public string Path => AssetDatabase.GUIDToAssetPath(guid);
 
-        /// <summary>
-        /// 资源是否有效
-        /// </summary>
         public bool IsValid()
         {
             return (this.Asset != null);
         }
 
-        /// <summary>
-        /// 添加标签
-        /// </summary>
-        /// <param name="tag"></param>
         public void AddTag(string tag)
         {
             this.tags.Add(tag);
         }
 
-        /// <summary>
-        /// 添加标签
-        /// </summary>
-        /// <param name="tag"></param>
         public bool RemoveTag(string tag)
         {
             return this.tags.Remove(tag);
         }
 
-        /// <summary>
-        /// 添加标签
-        /// </summary>
         public void RemoveAllTags()
         {
             this.tags.Clear();
         }
 
-        /// <summary>
-        /// 匹配GUID
-        /// </summary>
         public bool MatchGuid(string guid)
         {
             return this.guid.Equals(guid, StringComparison.OrdinalIgnoreCase);
         }
 
-        /// <summary>
-        /// 匹配多个标签
-        /// </summary>
-        /// <param name="tags"></param>
         public bool MatchTags(string[] tags)
         {
             foreach (string tag in tags)
             {
-                if (!this.MatchTag(tag)) return false;
+                if (!this.MatchTag(tag))
+                    return false;
             }
             return true;
         }
 
-        /// <summary>
-        /// 匹配标签
-        /// </summary>
-        /// <param name="tag"></param>
         public bool MatchTag(string tag)
         {
-            if (string.IsNullOrWhiteSpace(tag)) return true;
+            if (string.IsNullOrWhiteSpace(tag))
+                return true;
             return this.tags.Contains(tag, StringComparer.OrdinalIgnoreCase);
         }
 
-        /// <summary>
-        /// 匹配类型
-        /// </summary>
-        /// <param name="type"></param>
         public bool MatchType(string type)
         {
-            if (string.IsNullOrWhiteSpace(type)) return true;
+            if (string.IsNullOrWhiteSpace(type))
+                return true;
             return this.Type.Equals(type, StringComparison.OrdinalIgnoreCase);
         }
 
-        /// <summary>
-        /// 是否为文件夹
-        /// </summary>
         public bool IsDirectory()
         {
             return AssetDatabase.IsValidFolder(this.Path);
         }
-
     }
 
     #endregion
-
 }

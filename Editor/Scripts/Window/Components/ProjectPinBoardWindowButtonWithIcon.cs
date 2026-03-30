@@ -3,20 +3,11 @@ using UnityEngine.UIElements;
 
 namespace ChenPipi.ProjectPinBoard.Editor
 {
-
-    /// <summary>
-    /// 窗口
-    /// </summary>
     public partial class ProjectPinBoardWindow
     {
-
         private class ButtonWithIcon : Button
         {
-
-            public readonly Image iconImage = new Image()
-            {
-                scaleMode = ScaleMode.ScaleToFit,
-            };
+            public readonly Image iconImage = new Image() { scaleMode = ScaleMode.ScaleToFit, };
 
             public readonly Label textLabel = new Label()
             {
@@ -33,7 +24,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
 
             public ButtonWithIcon(string text = "", Texture icon = null)
             {
-                // 自身样式
                 this.style.flexDirection = FlexDirection.Row;
                 this.style.alignItems = Align.Center;
                 this.style.justifyContent = Justify.Center;
@@ -45,10 +35,8 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 this.style.paddingBottom = 1;
                 this.style.paddingLeft = 1;
                 this.style.paddingRight = 1;
-                // 图标
                 this.Add(iconImage);
                 this.SetIcon(icon);
-                // 文本
                 this.Add(textLabel);
                 this.SetText(text);
             }
@@ -56,7 +44,9 @@ namespace ChenPipi.ProjectPinBoard.Editor
             public void SetIcon(Texture icon)
             {
                 this.iconImage.image = icon;
-                this.iconImage.style.display = (icon == null ? DisplayStyle.None : DisplayStyle.Flex);
+                this.iconImage.style.display = (
+                    icon == null ? DisplayStyle.None : DisplayStyle.Flex
+                );
             }
 
             public void SetIconSize(int size)
@@ -67,7 +57,9 @@ namespace ChenPipi.ProjectPinBoard.Editor
             public void SetText(string text)
             {
                 this.textLabel.text = text;
-                this.textLabel.style.display = (string.IsNullOrEmpty(text) ? DisplayStyle.None : DisplayStyle.Flex);
+                this.textLabel.style.display = (
+                    string.IsNullOrEmpty(text) ? DisplayStyle.None : DisplayStyle.Flex
+                );
             }
 
             public void SetTextFontSize(int size)
@@ -79,9 +71,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
             {
                 this.textLabel.style.unityFontStyleAndWeight = fontStyle;
             }
-
         }
-
     }
-
 }

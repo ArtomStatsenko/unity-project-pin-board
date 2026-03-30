@@ -3,25 +3,36 @@ using UnityEngine;
 
 namespace ChenPipi.ProjectPinBoard.Editor
 {
-
-    /// <summary>
-    /// 窗口
-    /// </summary>
     public partial class ProjectPinBoardWindow : EditorWindow, IHasCustomMenu
     {
-
         public void AddItemsToMenu(GenericMenu menu)
         {
             menu.AddItem(new GUIContent("Reload"), false, Menu_Reload);
-            menu.AddItem(new GUIContent("Show Serialized Data File"), false, Menu_ShowSerializedDataFile);
-            menu.AddItem(new GUIContent("Show Serialized Settings File"), false, Menu_ShowSerializedSettingsFile);
+            menu.AddItem(
+                new GUIContent("Show Serialized Data File"),
+                false,
+                Menu_ShowSerializedDataFile
+            );
+            menu.AddItem(
+                new GUIContent("Show Serialized Settings File"),
+                false,
+                Menu_ShowSerializedSettingsFile
+            );
             menu.AddSeparator(string.Empty);
             menu.AddItem(new GUIContent("Clear Data ⚠️"), false, Menu_ClearData);
             menu.AddItem(new GUIContent("Reset Settings ⚠️"), false, Menu_ResetSettings);
             menu.AddSeparator(string.Empty);
-            menu.AddItem(new GUIContent("About/陈皮皮 (ichenpipi)"), false, Menu_HomePage);
-            menu.AddItem(new GUIContent("About/Project Home Page (Github)"), false, Menu_ProjectHomePageGithub);
-            menu.AddItem(new GUIContent("About/Project Home Page (Gitee)"), false, Menu_ProjectHomePageGitee);
+            menu.AddItem(new GUIContent("About/ChenPipi (ichenpipi)"), false, Menu_HomePage);
+            menu.AddItem(
+                new GUIContent("About/Project Home Page (Github)"),
+                false,
+                Menu_ProjectHomePageGithub
+            );
+            menu.AddItem(
+                new GUIContent("About/Project Home Page (Gitee)"),
+                false,
+                Menu_ProjectHomePageGitee
+            );
         }
 
         private void Menu_Reload()
@@ -49,7 +60,8 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 "Confirm!",
                 "Cancel"
             );
-            if (isOk) ProjectPinBoardManager.ClearData();
+            if (isOk)
+                ProjectPinBoardManager.ClearData();
         }
 
         private void Menu_ResetSettings()
@@ -72,7 +84,5 @@ namespace ChenPipi.ProjectPinBoard.Editor
         {
             Application.OpenURL("https://gitee.com/ichenpipi/unity-project-pin-board");
         }
-
     }
-
 }

@@ -5,21 +5,10 @@ using UnityEngine.UIElements;
 
 namespace ChenPipi.ProjectPinBoard.Editor
 {
-
-    /// <summary>
-    /// 窗口
-    /// </summary>
     public partial class ProjectPinBoardWindow
     {
-
-        /// <summary>
-        /// 搜索栏
-        /// </summary>
         private ToolbarSearchField m_ToolbarSearchField = null;
 
-        /// <summary>
-        /// 初始化
-        /// </summary>
         private void InitToolbarSearchField()
         {
             m_ToolbarSearchField = new ToolbarSearchField()
@@ -36,23 +25,18 @@ namespace ChenPipi.ProjectPinBoard.Editor
                 }
             };
             m_Toolbar.Add(m_ToolbarSearchField);
-            // 值变化回调
             m_ToolbarSearchField.RegisterValueChangedCallback(OnSearchFieldValueChanged);
-            // 监听键盘事件
-            m_ToolbarSearchField.RegisterCallback<KeyDownEvent>((evt) =>
-            {
-                // ↑ || ↓
-                if (evt.keyCode == KeyCode.UpArrow || evt.keyCode == KeyCode.DownArrow)
+            m_ToolbarSearchField.RegisterCallback<KeyDownEvent>(
+                (evt) =>
                 {
-                    FocusToAssetList();
+                    if (evt.keyCode == KeyCode.UpArrow || evt.keyCode == KeyCode.DownArrow)
+                    {
+                        FocusToAssetList();
+                    }
                 }
-            });
+            );
         }
 
-        /// <summary>
-        /// 搜索栏内容变化回调
-        /// </summary>
-        /// <param name="evt"></param>
         private void OnSearchFieldValueChanged(ChangeEvent<string> evt)
         {
             SetSearchText(evt.newValue);
@@ -60,15 +44,8 @@ namespace ChenPipi.ProjectPinBoard.Editor
 
         #region SearchField
 
-        /// <summary>
-        /// 搜索文本
-        /// </summary>
         private string m_SearchText = string.Empty;
 
-        /// <summary>
-        /// 设置搜索栏内容
-        /// </summary>
-        /// <param name="value"></param>
         private void SetSearchText(string value)
         {
             m_SearchText = value;
@@ -76,9 +53,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
             UpdateContent();
         }
 
-        /// <summary>
-        /// 聚焦到搜索框
-        /// </summary>
         private void FocusToSearchField()
         {
             m_ToolbarSearchField.Focus();
@@ -88,9 +62,6 @@ namespace ChenPipi.ProjectPinBoard.Editor
 
         #region Searching
 
-        /// <summary>
-        /// 获取不包含过滤器的实际搜索内容
-        /// </summary>
         private string GetSearchContent()
         {
             string text = m_SearchText;
@@ -108,7 +79,5 @@ namespace ChenPipi.ProjectPinBoard.Editor
         }
 
         #endregion
-
     }
-
 }

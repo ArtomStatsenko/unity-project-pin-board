@@ -3,11 +3,13 @@ using System.Text;
 
 namespace ChenPipi.ProjectPinBoard.Editor
 {
-
     public static class ListExtension
     {
-
-        public static string Join<T>(this IList<T> list, string separator = "", bool ignoreEmptyOrNull = true)
+        public static string Join<T>(
+            this IList<T> list,
+            string separator = "",
+            bool ignoreEmptyOrNull = true
+        )
         {
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < list.Count; ++i)
@@ -24,7 +26,5 @@ namespace ChenPipi.ProjectPinBoard.Editor
             }
             return builder.ToString();
         }
-
     }
-
 }
