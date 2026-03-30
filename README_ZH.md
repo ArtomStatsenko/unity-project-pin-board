@@ -133,3 +133,10 @@ _操作简单，效率翻倍！_
 ## 开源许可
 
 This project is licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Maintained Fork
+
+This repository is a maintained fork of the original project by ChenPipi:
+
+- Original repository: [ichenpipi/unity-project-pin-board](https://github.com/ichenpipi/unity-project-pin-board)
+- Maintained by: [Artom Statsenko](https://github.com/ArtomStatsenko)

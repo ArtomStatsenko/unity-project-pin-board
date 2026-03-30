@@ -1,5 +1,5 @@
 {
-    "name": "com.chenpipi.project-pin-board",
+    "name": "com.artomstatsenko.project-pin-board",
     "version": "1.0.5",
     "unity": "2020.2",
     "displayName": "Project Pin Board",
@@ -11,9 +11,9 @@
     ],
     "description": "Allows you to pin commonly used assets on the window, so you can find them quickly.",
     "author": {
-        "name": "ChenPipi",
-        "email": "952157129@qq.com",
-        "url": "https://github.com/ichenpipi"
+        "name": "Artom Statsenko",
+        "email": "namebyuser@gmail.com",
+        "url": "https://github.com/ArtomStatsenko"
     },
     "dependencies": {
     },

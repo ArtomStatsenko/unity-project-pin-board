@@ -1,6 +1,6 @@
 # Project Pin Board 📌
 
-[中文文档](README_ZH.md)
+[Chinese Document](README_ZH.md)
 
 Allows you to pin commonly used assets on the window, so you can find them quickly.
 
@@ -135,3 +135,10 @@ This project is compatible with the following versions of the Unity Editor:
 ## License
 
 This project is licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Maintained Fork
+
+This repository is a maintained fork of the original project by ChenPipi:
+
+- Original repository: [ichenpipi/unity-project-pin-board](https://github.com/ichenpipi/unity-project-pin-board)
+- Maintained by: [Artom Statsenko](https://github.com/ArtomStatsenko)
