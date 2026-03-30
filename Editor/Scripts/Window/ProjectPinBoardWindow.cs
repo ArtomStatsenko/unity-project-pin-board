@@ -29,6 +29,15 @@ namespace ChenPipi.ProjectPinBoard.Editor
         /// </summary>
         private const string k_Title = "Project Pin Board";
 
+        private void ApplyTitleContent()
+        {
+            titleContent = new GUIContent()
+            {
+                text = k_Title,
+                image = PipiUtility.GetIcon("Favorite"),
+            };
+        }
+
         /// <summary>
         /// 是否有已打开的窗口实例
         /// </summary>
@@ -61,11 +70,7 @@ namespace ChenPipi.ProjectPinBoard.Editor
             }
             // 创建新的的实例
             window = CreateWindow<ProjectPinBoardWindow>();
-            window.titleContent = new GUIContent()
-            {
-                text = k_Title,
-                image = PipiUtility.GetIcon("Favorite"),
-            };
+            window.ApplyTitleContent();
             window.minSize = new Vector2(100, 100);
             window.SetSize(600, 500);
             window.SetCenter();
@@ -123,6 +128,8 @@ namespace ChenPipi.ProjectPinBoard.Editor
 
         private void OnEnable()
         {
+            ApplyTitleContent();
+
             ProjectPinBoardManager.dataUpdated += RefreshData;
             ProjectPinBoardManager.pinned += OnPinned;
 
