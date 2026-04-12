@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.5] - 2026-03-30
+
+- Fix Editor window tab title and icon after domain reloads or editor restarts (`titleContent` applied in `OnEnable`).
+- Refactor editor scripts: consistent formatting, remove redundant comments and obsolete code; README aligned with English-only docs and Unity 6+ compatibility notes.
+
 ## [1.0.4] - 2023-08-18
 
 - Fix bugs.
