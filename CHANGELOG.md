@@ -4,6 +4,7 @@
 
 - Fix Editor window tab title and icon after domain reloads or editor restarts (`titleContent` applied in `OnEnable`).
 - Refactor editor scripts: consistent formatting, remove redundant comments and obsolete code; README aligned with English-only docs and Unity 6+ compatibility notes.
+- Add GitHub Actions workflow to build `ProjectPinBoard.unitypackage` (Editor tree including folder `.meta` entries, plus allowlisted root files) and attach it when a GitHub Release is published.
 
 ## [1.0.4] - 2023-08-18
 
