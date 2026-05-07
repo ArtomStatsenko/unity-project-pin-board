@@ -33,8 +33,13 @@ namespace ChenPipi.ProjectPinBoard.Editor
             };
             m_ContentSplitView.Add(m_AssetList);
 
+#if UNITY_2023_2_OR_NEWER
+            m_AssetList.selectionChanged += OnAssetListSelectionChange;
+            m_AssetList.itemsChosen += OnAssetListItemsChosen;
+#else
             m_AssetList.onSelectionChange += OnAssetListSelectionChange;
             m_AssetList.onItemsChosen += OnAssetListItemsChosen;
+#endif
         }
 
         private void OnAssetListSelectionChange(IEnumerable<object> objs)

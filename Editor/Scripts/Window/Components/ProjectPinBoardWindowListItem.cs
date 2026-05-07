@@ -64,7 +64,10 @@ namespace ChenPipi.ProjectPinBoard.Editor
                         scaleMode = ScaleMode.ScaleToFit,
                         style = { display = DisplayStyle.None, width = 12, },
                     };
-#if UNITY_2021_1_OR_NEWER
+#if UNITY_2023_2_OR_NEWER
+                    topImage.style.rotate = new Rotate(new Angle(180, AngleUnit.Degree));
+                    one.Add(topImage);
+#elif UNITY_2021_1_OR_NEWER
                     topImage.transform.rotation = Quaternion.Euler(0, 0, 180);
                     one.Add(topImage);
 #else
@@ -233,8 +236,12 @@ namespace ChenPipi.ProjectPinBoard.Editor
 
                 if (stopEvent)
                 {
+#if UNITY_2023_2_OR_NEWER
+                    evt.StopImmediatePropagation();
+#else
                     evt.PreventDefault();
                     evt.StopImmediatePropagation();
+#endif
                 }
             }
 

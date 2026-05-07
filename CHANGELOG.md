@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.6] - 2026-05-07
+
+- Fix Unity 2023.2+ / Unity 6.x editor warnings by using current UI Toolkit event, transform, and selection APIs while preserving compatibility fallbacks.
+
 ## [1.0.5] - 2026-04-12
 
 - Fix Editor window tab title and icon after domain reloads or editor restarts (`titleContent` applied in `OnEnable`).

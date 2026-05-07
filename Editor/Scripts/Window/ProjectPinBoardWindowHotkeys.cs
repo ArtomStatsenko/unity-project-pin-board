@@ -57,8 +57,12 @@ namespace ChenPipi.ProjectPinBoard.Editor
 
                     if (stopEvent)
                     {
+#if UNITY_2023_2_OR_NEWER
+                        evt.StopImmediatePropagation();
+#else
                         evt.PreventDefault();
                         evt.StopImmediatePropagation();
+#endif
                     }
                 }
             );

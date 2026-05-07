@@ -271,7 +271,11 @@ namespace ChenPipi.ProjectPinBoard.Editor
             }
             Object lastObject = Selection.activeObject;
             Selection.activeObject = asset;
+#if UNITY_6000_3_OR_NEWER
+            Selection.activeEntityId = asset.GetEntityId();
+#else
             Selection.activeInstanceID = asset.GetInstanceID();
+#endif
             if (
                 Environment.OSVersion.Platform == PlatformID.MacOSX
                 || Environment.OSVersion.Platform == PlatformID.Unix
